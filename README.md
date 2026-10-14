@@ -2,8 +2,6 @@
 
 # qxspose
 
-[by kormcrete](https://github.com/kormcrete)
-
 **Expose your JPA model as a typed query API: filter, sort, page and project, over HTTP or in-process.**
 
 **Status:** planned.

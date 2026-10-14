@@ -1,4 +1,4 @@
-# qxspose
+# qxspose (planned)
 
 **Expose your JPA model as a typed query API: filter, sort, page and project, over HTTP or in-process.**
 
@@ -55,17 +55,27 @@ curl -g 'http://localhost:8080/qxspose/orders/count?filter[status]=NEW'
 ```
 
 For the typed client, add `qxspose-maven-plugin` to a module that depends on your entities. It generates `OrdersQ`
-and `OrdersQRepository`:
+and `OrdersQRepository`. The starter registers the repository as a bean, so you inject it like any other:
 
 ```java
-@Autowired OrdersQRepository orders;   // OrderRow: any DTO with matching fields
+@Service
+class OrderReport {
+    private final OrdersQRepository orders;
 
-List<OrderRow> rows = orders.query()
-        .filter(OrdersQ.status().eq(OrderStatus.NEW))
-        .filter(OrdersQ.total().gt(new BigDecimal("500")))
-        .sort(OrdersQ.placedOn().desc())
-        .as(OrderRow.class);
+    OrderReport(OrdersQRepository orders) { this.orders = orders; }
+
+    List<OrderRow> bigNewOrders() {   // OrderRow: any DTO with matching fields
+        return orders.query()
+                .filter(OrdersQ.status().eq(OrderStatus.NEW))
+                .filter(OrdersQ.total().gt(new BigDecimal("500")))
+                .sort(OrdersQ.placedOn().desc())
+                .as(OrderRow.class);
+    }
+}
 ```
+
+Inside the server app it runs in-process. From another app, add `qxspose-client-spring-boot-starter` and set
+`qxspose.client.base-url` to run the same code over HTTP.
 
 ## Modules
 

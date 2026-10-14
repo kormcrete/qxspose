@@ -1,6 +1,12 @@
-# qxspose (planned)
+<img src="brand/qxspose-q.png" alt="" width="96" height="96">
+
+# qxspose
+
+[by kormcrete](https://github.com/kormcrete)
 
 **Expose your JPA model as a typed query API: filter, sort, page and project, over HTTP or in-process.**
+
+**Status:** planned.
 
 Add one starter to a Spring Boot app and every `@Entity` becomes a resource you can query, with no controller,
 repository method or mapping code to write.
